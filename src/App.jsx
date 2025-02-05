@@ -12,6 +12,7 @@ function App() {
         <Route path="" element={<AllCharacters/>}/>
         <Route path="details/:characterId" element={<DetailsCharacters />} />
         </Route>
+        <Route path="*" element={<h1>Error 404</h1>}/>
       </Routes>
     </>
   );

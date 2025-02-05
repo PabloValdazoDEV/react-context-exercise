@@ -4,16 +4,16 @@ const NavBar = () => {
   return (
     <>
       <Link
-        style={{
+        style={{width:"100%",display:"flex", justifyContent:"center"}}
+        to="/"
+      >
+        <h2 style={{
           textDecoration: "none",
           color: "white",
           cursor: "pointer",
           position: "absolute",
           top: 0,
-        }}
-        to="/"
-      >
-        <h2>Home</h2>
+        }}>Home</h2>
       </Link>
       <Outlet />
     </>

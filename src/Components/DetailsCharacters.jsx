@@ -1,28 +1,37 @@
-import { useParams } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-import GetDetailsCharacters from "../Api/GetDetailsCharacters";
+import { useParams, Navigate } from "react-router";
+import { useAtom } from "jotai";
+import fechApi from "../context/fechApi";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 
 const DetailsCharacters = () => {
   const { characterId } = useParams();
 
-  const { isLoading, data, error } = useQuery({
-    queryKey: ["GetDetailsCharacters", characterId],
-    queryFn: () => 
-      GetDetailsCharacters(characterId)
-    
-  });
+  const [data, setData] = useAtom(fechApi);
 
-  if (isLoading) {
-    return <h1>Cargando...</h1>;
+  const [dataFilter] = data.filter((character) => +character.id == characterId);
+  if (!dataFilter) {
+    return <Navigate to="/" replace />;
   }
-  if (error) {
-    return <h1>No se han encontrado nada =(</h1>;
-  }
-  console.log(data)
+
+  console.log(dataFilter)
 
   return (
     <>
-      <h1>{data.firstName}</h1>
+    
+      <Card sx={{ minWidth: 275, maxWidth:400, mx:"auto", position:"relative" }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {dataFilter.firstName} {dataFilter.lastName}
+        </Typography>
+        <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+          Title: {dataFilter.title}
+        </Typography>
+        <Box component="img" sx={{height: "100%", width: 200}} src={dataFilter.imageUrl}/>
+        <Typography variant="body2">
+          Family: {dataFilter.family}
+        </Typography>
+      </CardContent>
+    </Card>
     </>
   );
 };
